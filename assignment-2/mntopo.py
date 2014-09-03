@@ -14,10 +14,15 @@ class MNTopo(Topo):
 
         # Host and link configuration
         hostConfig = {'cpu': cpu}
+	'''
         linkConfig = {'bw': 10, 'delay': '1ms', 'loss': 0,
                    'max_queue_size': max_queue_size }
-
-        # Hosts and switches
+        linkConfig = {'bw': 10, 'delay': '10ms', 'loss': 0,
+                   'max_queue_size': max_queue_size }
+	'''        
+	linkConfig = {'bw': 50, 'delay': '10ms', 'loss': 0,
+                   'max_queue_size': max_queue_size }
+        '''# Hosts and switches
         s1 = self.addSwitch('s1')
         sender = self.addHost('sender', **hostConfig)
         receiver = self.addHost('receiver', **hostConfig)
@@ -27,4 +32,25 @@ class MNTopo(Topo):
 
         # Wire sender
         self.addLink(sender, s1, **linkConfig)
+	'''
+
+	#add 3 switches 
+	s1 = self.addSwitch('s1')
+	s2 = self.addSwitch('s2')
+	s3 = self.addSwitch('s3')
+        
+	sender = self.addHost('sender', **hostConfig)
+        receiver = self.addHost('receiver', **hostConfig)
+
+	# Wire receiver
+	self.addLink(receiver, s3, **linkConfig)
+
+        # Wire sender
+        self.addLink(sender, s1, **linkConfig)
+
+	# Wire s1-s2
+	self.addLink(s1, s2, **linkConfig)
+
+	# Wire s2-s3
+	self.addLink(s2, s3, **linkConfig)
 
